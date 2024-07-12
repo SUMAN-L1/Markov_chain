@@ -22,7 +22,7 @@ def calculate_transition_matrix(df):
     return transition_matrix
 
 def main():
-    st.title("Markov Chain Analysis of Crop Price Data")
+    st.title("Markov Chain Analysis")
     
     # Upload file
     uploaded_file = st.file_uploader("Upload your file (CSV or Excel)", type=["csv", "xlsx", "xls"])
