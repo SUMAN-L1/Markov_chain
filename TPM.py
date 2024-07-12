@@ -22,7 +22,7 @@ def calculate_transition_matrix(df):
     return transition_matrix
 
 def main():
-    st.title("Markov Chain Analysis [Suman_Econ]")
+    st.title("Markov Chain Analysis of Crop Price Data")
     
     # Upload file
     uploaded_file = st.file_uploader("Upload your file (CSV or Excel)", type=["csv", "xlsx", "xls"])
@@ -33,6 +33,13 @@ def main():
             df = pd.read_csv(uploaded_file)
         else:
             df = pd.read_excel(uploaded_file)
+        
+        # Auto-detect and convert data types
+        for col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
+
+        # Drop rows with any NaN values resulting from conversion
+        df.dropna(inplace=True)
         
         # Show the uploaded data
         st.subheader("Uploaded Data")
