@@ -84,7 +84,7 @@ class MarkovChain:
 st.title("Markov Chain Analysis for Silk Production Data")
 
 # Upload CSV file
-uploaded_file = st.file_uploader("Upload CSV file with silk production data", type="csv", "xlsx", "xls")
+uploaded_file = st.file_uploader("Upload CSV file with silk production data", type=("csv", "xlsx", "xls"))
 if uploaded_file:
     df = pd.read_csv(uploaded_file)
     st.write("Data preview:", df.head())
