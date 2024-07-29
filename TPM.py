@@ -83,7 +83,11 @@ class MarkovChain:
 def load_data(file):
     try:
         if file.name.endswith('.csv'):
-            df = pd.read_csv(file, encoding='utf-8-sig')  # Handle common encoding issues
+            # Try different encodings and handle errors
+            try:
+                df = pd.read_csv(file, encoding='utf-8-sig')  # Handle common encoding issues
+            except UnicodeDecodeError:
+                df = pd.read_csv(file, encoding='latin1')  # Fallback encoding
         elif file.name.endswith('.xlsx') or file.name.endswith('.xls'):
             df = pd.read_excel(file)
         else:
