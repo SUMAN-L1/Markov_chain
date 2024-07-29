@@ -4,8 +4,8 @@ import numpy as np
 from functools import reduce
 from math import gcd
 from itertools import combinations
+import io
 
-# Define the Markov Chain class with methods
 class MarkovChain:
     def __init__(self, transition_matrix, states):
         self.transition_matrix = np.atleast_2d(transition_matrix)
@@ -80,17 +80,30 @@ class MarkovChain:
         else:
             return False
 
+def load_data(file):
+    try:
+        if file.name.endswith('.csv'):
+            df = pd.read_csv(file, encoding='utf-8-sig')  # Handle common encoding issues
+        elif file.name.endswith('.xlsx') or file.name.endswith('.xls'):
+            df = pd.read_excel(file)
+        else:
+            st.error("Unsupported file format. Please upload a CSV, XLS, or XLSX file.")
+            return None
+        return df
+    except Exception as e:
+        st.error(f"Error reading the file: {e}")
+        return None
+
 # Streamlit app setup
 st.title("Markov Chain Analysis for Silk Production Data")
 
-# Upload CSV file
-uploaded_file = st.file_uploader("Upload CSV file with silk production data", type=("csv", "xlsx", "xls"))
+# Upload file
+uploaded_file = st.file_uploader("Upload file with silk production data", type=["csv", "xlsx", "xls"])
 if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-    st.write("Data preview:", df.head())
+    df = load_data(uploaded_file)
+    if df is not None and not df.empty:
+        st.write("Data preview:", df.head())
 
-    # Assuming the columns are countries and rows are time series data
-    if not df.empty:
         # Create a Markov Chain model
         st.write("Calculating transition matrix...")
         
